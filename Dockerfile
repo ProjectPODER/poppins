@@ -1,6 +1,11 @@
 # Poppins works on Apache NiFi.
 # Dockerfile inheritance: nifi, openjdk:8-jre, debian:stretch-slim
-FROM apache/nifi:latest
+FROM apache/nifi:1.8.0
+
+# NOTE: This docker image inherits:
+# EXPOSE 8080 8443 10000 8000
+# WORKDIR ${NIFI_HOME}
+# ENTRYPOINT ["../scripts/start.sh"]
 
 # We're creating files at the root, so we need to be root.
 USER root
@@ -16,7 +21,8 @@ COPY poppins_files $POPPINS_FILES/
 
 RUN mkdir $NIFI_HOME/certs/
 COPY certs/* $NIFI_HOME/certs/
-COPY conf/* $NIFI_HOME/conf/
+# Disabled because cause startup to fail.
+#COPY conf/* $NIFI_HOME/conf/
 
 # Install remote scripts
 RUN mkdir ~/.ssh/
