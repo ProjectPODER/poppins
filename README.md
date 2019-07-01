@@ -94,3 +94,5 @@ After that just delete the pods in kubernetes so they pull the image again.
 ## References
 
 https://dzone.com/articles/quick-tip-using-git-with-nifi-registry-in-docker
+https://bryanbende.com/development/2018/01/19/apache-nifi-how-do-i-deploy-my-flow
+http://max.bback.se/index.php/2018/06/30/xml-to-tables-csv-with-nifi-and-groovy-part-2-of-2/
