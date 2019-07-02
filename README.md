@@ -91,6 +91,14 @@ registry.
 
 After that just delete the pods in kubernetes so they pull the image again.
 
+## Run in Kubernetes
+
+To run, the following environment variables are assumed:
+```
+MONGO_HOST=localhost
+MONGO_PORT=27017
+```
+
 ## References
 
 https://dzone.com/articles/quick-tip-using-git-with-nifi-registry-in-docker
