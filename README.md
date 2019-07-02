@@ -38,7 +38,7 @@ The Dockerfile included have instructions to setup the follow dependencies:
 To run this new poppins image, use the following command:
 
 ```shell
-$ docker run -p 8080:8080 poder/poppins:0.1
+$ sudo docker run -p 8080:8080 --net="host" -e MONGO_HOST=127.0.0.1 -e MONGO_PORT=27017  poder/poppins:0.1
 ```
 
 You can check the startup status by checking the logs, like this:
@@ -74,7 +74,7 @@ COPY --chown=nifi:nifi flow.xml.gz /opt/nifi/nifi-current/conf/
 not, run `docker ps` to find the container id and replace it in the command.
 
 ***IMPORTANT:*** If you need persistent storage for your data, you should assign
-a volumen to your docker container, or configure a PVC to your deployment on
+a volume to your docker container, or configure a PVC to your deployment on
 kubernetes.
 
 ## Deploy
@@ -91,13 +91,6 @@ registry.
 
 After that just delete the pods in kubernetes so they pull the image again.
 
-## Run in Kubernetes
-
-To run, the following environment variables are assumed:
-```
-MONGO_HOST=localhost
-MONGO_PORT=27017
-```
 
 ## References
 

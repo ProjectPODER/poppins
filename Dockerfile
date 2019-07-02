@@ -26,7 +26,7 @@ RUN mkdir $NIFI_HOME/certs/
 COPY certs/* $NIFI_HOME/certs/
 # Disabled because cause startup to fail.
 #COPY conf/* $NIFI_HOME/conf/
-#COPY --chown=nifi:nifi conf/bootstrap.conf /opt/nifi/nifi-current/conf/
+COPY --chown=nifi:nifi conf/bootstrap.conf /opt/nifi/nifi-current/conf/
 COPY --chown=nifi:nifi conf/authorizers.xml /opt/nifi/nifi-current/conf/
 COPY --chown=nifi:nifi conf/nifi.properties /opt/nifi/nifi-current/conf/
 COPY --chown=nifi:nifi conf/flow.xml.gz /opt/nifi/nifi-current/conf/
