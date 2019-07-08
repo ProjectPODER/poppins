@@ -10,20 +10,19 @@ FROM apache/nifi:1.8.0
 # We're creating files at the root, so we need to be root.
 USER root
 ENV POPPINS_FILES_DIR=/poppins_files
-ENV POPPINS_SCRIPTS_DIR=/poppins_scripts
+ENV POPPINS_SCRIPTS_DIR=$NIFI_HOME/poppins_scripts
 
-# Install nodejs for scripts
-RUN apt-get update
+# Install nodejs and yarn for scripts
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN apt-get install -y nodejs git
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install -y nodejs git yarn
 
 # Copy files from our repo
-RUN mkdir $POPPINS_FILES_DIR
+RUN mkdir $POPPINS_FILES_DIR && mkdir $POPPINS_SCRIPTS_DIR && mkdir $NIFI_HOME/certs/ && mkdir ~/.ssh/
 COPY poppins_files $POPPINS_FILES_DIR/
-RUN mkdir $POPPINS_SCRIPTS_DIR
-
-RUN mkdir $NIFI_HOME/certs/
 COPY certs/* $NIFI_HOME/certs/
+COPY scripts $POPPINS_SCRIPTS_DIR/
 # Disabled because cause startup to fail.
 #COPY conf/* $NIFI_HOME/conf/
 COPY --chown=nifi:nifi conf/bootstrap.conf /opt/nifi/nifi-current/conf/
@@ -32,13 +31,8 @@ COPY --chown=nifi:nifi conf/nifi.properties /opt/nifi/nifi-current/conf/
 COPY --chown=nifi:nifi conf/flow.xml.gz /opt/nifi/nifi-current/conf/
 
 # Install remote scripts
-RUN mkdir ~/.ssh/
 RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-RUN cd $POPPINS_SCRIPTS_DIR && git clone http://gitlab.rindecuentas.org/equipo-qqw/cnet2ocds.git && cd cnet2ocds && npm install
-RUN cd $POPPINS_SCRIPTS_DIR && git clone http://gitlab.rindecuentas.org/equipo-qqw/stream2db.git && cd stream2db && npm install
-RUN cd $POPPINS_SCRIPTS_DIR && git clone http://gitlab.rindecuentas.org/equipo-qqw/cnet32ocds.git && cd cnet32ocds && npm install
-RUN cd $POPPINS_SCRIPTS_DIR && git clone http://gitlab.rindecuentas.org/equipo-qqw/pot2ocds.git && cd pot2ocds && npm install
-RUN cd $POPPINS_SCRIPTS_DIR && git clone http://gitlab.rindecuentas.org/equipo-qqw/cargografias-transformer.git && cd cargografias-transformer && npm install
+RUN cd $POPPINS_SCRIPTS_DIR/cnet2ocds && yarn install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && yarn install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && yarn install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cnet32ocds && yarn install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../pot2ocds && yarn install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cargografias-transformer && yarn install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules
 
 # Change back the owner of the created files and folders
 RUN chown nifi:nifi $NIFI_HOME/conf/* $NIFI_HOME/certs $NIFI_HOME/certs/* $POPPINS_FILES_DIR $POPPINS_FILES_DIR/* $POPPINS_SCRIPTS_DIR $POPPINS_SCRIPTS_DIR/*
