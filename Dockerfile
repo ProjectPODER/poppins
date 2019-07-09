@@ -10,7 +10,7 @@ FROM apache/nifi:1.8.0
 # We're creating files at the root, so we need to be root.
 USER root
 ENV POPPINS_FILES_DIR=/poppins_files
-ENV POPPINS_SCRIPTS_DIR=$NIFI_HOME/poppins_scripts
+ENV POPPINS_SCRIPTS_DIR=$NIFI_HOME/scripts
 
 # Install nodejs and yarn for scripts
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
@@ -25,10 +25,11 @@ COPY certs/* $NIFI_HOME/certs/
 COPY scripts $POPPINS_SCRIPTS_DIR/
 # Disabled because cause startup to fail.
 #COPY conf/* $NIFI_HOME/conf/
-COPY --chown=nifi:nifi conf/bootstrap.conf /opt/nifi/nifi-current/conf/
-COPY --chown=nifi:nifi conf/authorizers.xml /opt/nifi/nifi-current/conf/
-COPY --chown=nifi:nifi conf/nifi.properties /opt/nifi/nifi-current/conf/
-COPY --chown=nifi:nifi conf/flow.xml.gz /opt/nifi/nifi-current/conf/
+COPY --chown=nifi:nifi conf/bootstrap.conf $NIFI_HOME/conf/
+COPY --chown=nifi:nifi conf/authorizers.xml $NIFI_HOME/conf/
+COPY --chown=nifi:nifi conf/nifi.properties $NIFI_HOME/conf/
+COPY --chown=nifi:nifi conf/flow.xml.gz $NIFI_HOME/conf/
+COPY --chown=nifi:nifi .git $NIFI_HOME/.git/
 
 # Install remote scripts
 RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
