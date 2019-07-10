@@ -1,7 +1,7 @@
-https://upcp.funcionpublica.gob.mx/descargas/Contratos2018.zip
-https://upcp.funcionpublica.gob.mx/descargas/Contratos2017.zip
-https://upcp.funcionpublica.gob.mx/descargas/Contratos2016.zip
-https://compranetinfo.funcionpublica.gob.mx/descargas/cnet/Contratos2015.zip
-https://compranetinfo.funcionpublica.gob.mx/descargas/cnet/Contratos2014.zip
-https://compranetinfo.funcionpublica.gob.mx/descargas/cnet/Contratos2013.zip
-https://compranetinfo.funcionpublica.gob.mx/descargas/cnet/Contratos2010_2012.zip
+https://upcp.hacienda.gob.mx/descargas/Contratos2018.zip
+https://compranetinfo.hacienda.gob.mx/descargas/cnet/Contratos2017.zip
+https://compranetinfo.hacienda.gob.mx/descargas/cnet/Contratos2016.zip
+https://compranetinfo.hacienda.gob.mx/descargas/cnet/Contratos2015.zip
+https://compranetinfo.hacienda.gob.mx/descargas/cnet/Contratos2014.zip
+https://compranetinfo.hacienda.gob.mx/descargas/cnet/Contratos2013.zip
+https://compranetinfo.hacienda.gob.mx/descargas/cnet/Contratos2010_2012.zip
