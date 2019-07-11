@@ -12,11 +12,9 @@ USER root
 ENV POPPINS_FILES_DIR=/poppins_files
 ENV POPPINS_SCRIPTS_DIR=$NIFI_HOME/scripts
 
-# Install nodejs and yarn for scripts
+# Install nodejs and npm for scripts
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update && apt-get install -y nodejs git yarn
+RUN apt-get update && apt-get install -y nodejs git npm
 
 # Copy files from our repo
 RUN mkdir $POPPINS_FILES_DIR && mkdir $POPPINS_SCRIPTS_DIR && mkdir $NIFI_HOME/certs/ && mkdir ~/.ssh/
@@ -33,7 +31,7 @@ COPY --chown=nifi:nifi .git $NIFI_HOME/.git/
 
 # Install remote scripts
 RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-RUN cd $POPPINS_SCRIPTS_DIR/cnet2ocds && yarn install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && yarn install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && yarn install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cnet32ocds && yarn install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../pot2ocds && yarn install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cargografias-transformer && yarn install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules
+RUN cd $POPPINS_SCRIPTS_DIR/cnet2ocds && npm install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && npm install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cnet32ocds && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../pot2ocds && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cargografias-transformer && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules
 
 # Change back the owner of the created files and folders
 RUN chown nifi:nifi $NIFI_HOME/conf/* $NIFI_HOME/certs $NIFI_HOME/certs/* $POPPINS_FILES_DIR $POPPINS_FILES_DIR/* $POPPINS_SCRIPTS_DIR $POPPINS_SCRIPTS_DIR/*
