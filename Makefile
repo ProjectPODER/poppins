@@ -2,7 +2,7 @@
 # Makefile for poppins on docker
 #
 # author: Jorge Armando Medina
-# desc: Script to build the poppins docker images using docker build.
+# desc: Script to build, test and release the poppins docker image.
 
 include /var/lib/jenkins/.env
 
@@ -11,9 +11,8 @@ APP_NAME = poppins
 APP_PORT = 8081:8081
 APP_VERSION = 0.2
 IMAGE_NAME = ${ORG_NAME}/${APP_NAME}:${APP_VERSION}
-REGISTRY_URL = localhost:5000
 
-.PHONY: all build test clean purge help
+.PHONY: all build test release clean help
 
 all: help
 
@@ -35,7 +34,7 @@ test:
 	docker exec ${APP_NAME} /opt/nifi/nifi-toolkit-current/bin/cli.sh nifi current-user 2>/dev/null; true
 
 release:
-	@echo "Push ${IMAGE_NAME} image to dockerhub."
+	@echo "Push ${IMAGE_NAME} image to docker registry."
 	cat ${DOCKER_PWD} | docker login --username ${DOCKER_USER} --password-stdin
 	docker tag  ${IMAGE_NAME} ${DOCKER_REPO}:${APP_NAME}-${APP_VERSION}
 	docker push ${DOCKER_REPO}:${APP_NAME}-${APP_VERSION}
@@ -47,22 +46,16 @@ clean:
 	docker stop ${APP_NAME} 2>/dev/null; true
 	docker rm ${APP_NAME}  2>/dev/null; true
 	@echo ""
-	docker rmi ${IMAGE_NAME} 2>/dev/null; true
-
-purge:
-	@echo ""
 	@echo "Purging local images."
-	@echo ""
-	docker rmi ${IMAGE_NAME}
+	docker rmi ${IMAGE_NAME} 2>/dev/null; true
 
 help:
 	@echo ""
 	@echo "Please use \`make <target>' where <target> is one of"
 	@echo ""
 	@echo "  build		Builds the docker image."
-	@echo "  test			Test image."
+	@echo "  test		Tests image."
+	@echo "  release	Releases images."
 	@echo "  clean		Cleans local images."
-	@echo "  purge		Purges local images."
-	@echo "  release	releases local images."
 	@echo ""
 	@echo ""

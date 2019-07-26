@@ -44,7 +44,7 @@ pipeline {
       agent { label 'swarm' }
       steps {
         script {
-          echo "Run and Testing container"
+          echo "Test container"
           sh 'make test'
         }
       }
@@ -53,7 +53,7 @@ pipeline {
       agent { label 'swarm' }
       steps {
         script {
-          echo "Push image to Dockerhub"
+          echo "Push container image to dockerhub registry"
           sh 'make release'
         }
       }
