@@ -21,8 +21,6 @@ RUN mkdir $POPPINS_FILES_DIR && mkdir $POPPINS_SCRIPTS_DIR && mkdir $NIFI_HOME/c
 COPY poppins_files $POPPINS_FILES_DIR/
 COPY certs/* $NIFI_HOME/certs/
 COPY scripts $POPPINS_SCRIPTS_DIR/
-# Disabled because cause startup to fail.
-#COPY conf/* $NIFI_HOME/conf/
 COPY --chown=nifi:nifi conf/bootstrap.conf $NIFI_HOME/conf/
 COPY --chown=nifi:nifi conf/authorizers.xml $NIFI_HOME/conf/
 COPY --chown=nifi:nifi conf/nifi.properties $NIFI_HOME/conf/
