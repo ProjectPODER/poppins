@@ -9,7 +9,7 @@ include /var/lib/jenkins/.env
 ORG_NAME = poder
 APP_NAME = poppins
 APP_PORT = 8081:8081
-APP_VERSION = 0.2
+APP_VERSION = 0.3.0
 IMAGE_NAME = ${ORG_NAME}/${APP_NAME}:${APP_VERSION}
 
 .PHONY: all build test release clean help

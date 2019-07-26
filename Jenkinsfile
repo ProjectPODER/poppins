@@ -10,7 +10,7 @@ pipeline {
         script {
           URL='http://gitlab.rindecuentas.org/equipo-qqw/poppins.git'
           BRANCH='*/master'
-          CREDENTIALS=''
+          CREDENTIALS='f28cf2d5-ce55-4f0b-9bad-c84376ce401d'
         }
           dir('new-dir') { sh 'pwd' }
           ansiColor('xterm') {
