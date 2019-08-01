@@ -4,7 +4,7 @@
 # author: Jorge Armando Medina
 # desc: Script to build, test and release the poppins docker image.
 
-#include /var/lib/jenkins/.env
+include /var/lib/jenkins/.env
 
 ORG_NAME = poder
 APP_NAME = poppins-registry
