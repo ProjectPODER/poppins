@@ -49,7 +49,7 @@ pipeline {
         }
       }
     }
-    stage ('Release and Clean') {
+    stage ('Release') {
       agent { label 'swarm' }
       steps {
         script {
