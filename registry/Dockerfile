@@ -14,3 +14,5 @@ ENV NIFI_REGISTRY_BASE_DIR=/opt/nifi-registry
 # Copy flow_storage dir
 COPY --chown=nifi:nifi flow_storage $FLOW_STORAGE_DIR
 
+USER nifi
+WORKDIR ${NIFI_REGISTRY_HOME}

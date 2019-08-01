@@ -9,7 +9,7 @@
 ORG_NAME = poder
 APP_NAME = poppins-registry
 APP_PORT = 18080:18080
-APP_VERSION = 0.4.0
+APP_VERSION = 0.4.1
 IMAGE_NAME = ${ORG_NAME}/${APP_NAME}:${APP_VERSION}
 
 .PHONY: all build test release clean help
