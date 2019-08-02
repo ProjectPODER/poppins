@@ -49,12 +49,14 @@ pipeline {
         }
       }
     }
-    stage ('Release') {
+    stage ('Release and Clean') {
       agent { label 'swarm' }
       steps {
         script {
           echo "Push container image to dockerhub registry"
           sh 'make release'
+	  echo "Clean container ans Image"
+	  sh 'make clean'
         }
       }
     }
