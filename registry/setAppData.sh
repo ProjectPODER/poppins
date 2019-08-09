@@ -1,0 +1,24 @@
+#!/bin/bash
+
+source /var/lib/jenkins/.env
+
+REGISTRY_ORG_NAME=poppins-registry
+REGISTRY_APP_NAME=poppins-registry
+REGISTRY_VERSION=0.4.1
+# REGISTRY_VERSION=$(cat package.json | jq -r .version)
+REGISTRY_DOCKER_REPO=${DOCKER_REPO}/${REGISTRY_ORG_NAME}:${REGISTRY_VERSION}
+APPS_DATA_FILE=/var/lib/jenkins/apps_data
+
+[[ ! -f "$APPS_DATA_FILE" ]] && touch $APPS_DATA_FILE
+chown jenkins:jenkins $APPS_DATA_FILE;
+
+sed -i \
+ -e '/^REGISTRY_VERSION/ d'  \
+ -e '/^REGISTRY_ORG_NAME/ d' \
+ -e '/^REGISTRY_APP_NAME/ d' \
+ -e '/^REGISTRY_DOCKER_REPO/ d' \
+$APPS_DATA_FILE
+echo "REGISTRY_VERSION=$REGISTRY_VERSION" >> $APPS_DATA_FILE
+echo "REGISTRY_ORG_NAME=$REGISTRY_ORG_NAME" >> $APPS_DATA_FILE
+echo "REGISTRY_APP_NAME=$REGISTRY_APP_NAME" >> $APPS_DATA_FILE
+echo "REGISTRY_DOCKER_REPO=$REGISTRY_DOCKER_REPO" >> $APPS_DATA_FILE
