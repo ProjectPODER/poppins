@@ -27,11 +27,13 @@ pipeline {
               ]]
             ]
           }
+        echo "Set App Vars"
+        sh 'bash setAppData.sh'
         echo "Clean container and Image"
         sh 'make clean'
       }
     }
-    stage ('Build') {
+    stage ('Build Image') {
       agent { label 'swarm' }
       steps {
         script {
@@ -40,7 +42,7 @@ pipeline {
         }
       }
     }
-    stage ('Test') {
+    stage ('Test Image') {
       agent { label 'swarm' }
       steps {
         script {
@@ -49,16 +51,42 @@ pipeline {
         }
       }
     }
-    stage ('Release and Clean') {
+    stage ('Release Image') {
       agent { label 'swarm' }
       steps {
         script {
           echo "Push container image to dockerhub registry"
           sh 'make release'
-	  echo "Clean container ans Image"
-	  sh 'make clean'
+	        echo "Clean container and Image"
+	        sh 'make clean'
         }
       }
     }
+    stage ('Deploy to cluster') {
+      steps {
+        script {
+          URL='http://gitlab.rindecuentas.org/equipo-qqw/qqw-doks.git'
+          BRANCH='*/master'
+          CREDENTIALS='f28cf2d5-ce55-4f0b-9bad-c84376ce401d'
+        }
+          dir('new-dir') { sh 'pwd' }
+          ansiColor('xterm') {
+            checkout changelog: false, poll: false, scm:
+            [$class:
+             'GitSCM', branches: [[name: BRANCH]],
+              doGenerateSubmoduleConfigurations: false,
+              extensions: [],
+              submoduleCfg: [],
+              userRemoteConfigs:
+              [[
+                credentialsId: CREDENTIALS,
+                url: URL
+              ]]
+            ]
+          }
+        echo "Deploy to Cluster"
+        sh 'cd kubernetes/poppins; bash scripts/deploy.sh'
+      }
+    } // End stage deploy
   }
 }
