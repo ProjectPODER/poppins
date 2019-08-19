@@ -5,12 +5,9 @@
 # desc: Script to build, test and release the poppins docker image.
 
 include /var/lib/jenkins/.env
+include /var/lib/jenkins/apps_data
 
-ORG_NAME = poder
-APP_NAME = poppins
-APP_PORT = 8081:8081
-APP_VERSION = 0.3.0
-IMAGE_NAME = ${ORG_NAME}/${APP_NAME}:${APP_VERSION}
+POPPINS_APP_PORT = 8081:8081
 
 .PHONY: all build test release clean help
 
@@ -18,36 +15,36 @@ all: help
 
 build:
 	@echo ""
-	@echo "Building ${IMAGE_NAME} image."
+	@echo "Building ${POPPINS_DOCKER_REPO} image."
 	@echo ""
-	docker build -t ${IMAGE_NAME} .
-	@echo "Listing ${IMAGE_NAME} image."
+	docker build -t ${POPPINS_DOCKER_REPO} .
+	@echo "Listing ${POPPINS_DOCKER_REPO} image."
 	docker images
 
 test:
-	@echo "Run ${IMAGE_NAME} image."
-	docker run --name ${APP_NAME} -p ${APP_PORT} -d ${IMAGE_NAME}
+	@echo "Run ${POPPINS_DOCKER_REPO} image."
+	docker run --name ${POPPINS_APP_NAME} -p ${POPPINS_APP_PORT} -d ${POPPINS_DOCKER_REPO}
 	@echo "Wait until NiFi is fully started."
 	sleep 90
-	docker logs ${APP_NAME}
+	docker logs ${POPPINS_APP_NAME}
 	@echo "Connect to nifi using nifi-toolkit."
-	docker exec ${APP_NAME} /opt/nifi/nifi-toolkit-current/bin/cli.sh nifi current-user 2>/dev/null; true
+	docker exec ${POPPINS_APP_NAME} /opt/nifi/nifi-toolkit-current/bin/cli.sh nifi current-user 2>/dev/null; true
 
 release:
-	@echo "Push ${IMAGE_NAME} image to docker registry."
+	@echo "Push ${POPPINS_DOCKER_REPO} image to docker registry."
 	cat ${DOCKER_PWD} | docker login --username ${DOCKER_USER} --password-stdin
-	docker tag  ${IMAGE_NAME} ${DOCKER_REPO}:${APP_NAME}-${APP_VERSION}
-	docker push ${DOCKER_REPO}:${APP_NAME}-${APP_VERSION}
+	docker tag  ${POPPINS_DOCKER_REPO} ${POPPINS_DOCKER_REPO}
+	docker push ${POPPINS_DOCKER_REPO}
 
 clean:
 	@echo ""
 	@echo "Cleaning local build environment."
 	@echo ""
-	docker stop ${APP_NAME} 2>/dev/null; true
-	docker rm ${APP_NAME}  2>/dev/null; true
+	docker stop ${POPPINS_APP_NAME} 2>/dev/null; true
+	docker rm ${POPPINS_APP_NAME}  2>/dev/null; true
 	@echo ""
 	@echo "Purging local images."
-	docker rmi ${IMAGE_NAME} 2>/dev/null; true
+	docker rmi ${POPPINS_DOCKER_REPO} 2>/dev/null; true
 
 help:
 	@echo ""
