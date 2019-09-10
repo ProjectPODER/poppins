@@ -1,32 +1,43 @@
-FROM       xemuliam/nifi-base:1.9.2
-MAINTAINER kronops <kronops@kronops.com.mx>
-ENV        BANNER_TEXT="POPPINS" \
-           S2S_PORT="" \
-           POPPINS_FILES_DIR=poppins_files \
-           POPPINS_SCRIPTS_DIR=$NIFI_HOME/scripts \
-           POPPINS_CERTS=$NIFI_HOME/certs/ \
-           POPPINS_SSH=/root/.ssh/ \
-           POPPINS_CONF=$NIFI_HOME/conf/ \
-           POPPINS_GIT=$NIFI_HOME/.git/
-COPY       start_nifi.sh /${NIFI_HOME}/
-RUN        apk add --update nodejs npm
-RUN        apk add --update npm
-VOLUME     ${POPPINS_SCRIPTS_DIR} \
-	         ${POPPINS_FILES_DIR} \
-      	   ${POPPINS_CERTS} \
-           ${POPPINS_SSH} \
-           ${POPPINS_CONF} \
-           ${POPPINS_GIT} \
-           ${NIFI_HOME}/logs \
+# Poppins works on Apache NiFi.
+# Dockerfile inheritance: nifi, openjdk:8-jre, debian:stretch-slim
+FROM        apache/nifi:1.8.0
+
+# NOTE: This docker image inherits:
+# EXPOSE    8080 8443 10000 8000
+# WORKDIR   ${NIFI_HOME}
+# ENTRYPOINT ["../scripts/start.sh"]
+
+# We're creating files at the root, so we need to be root.
+USER       root
+ENV        POPPINS_FILES_DIR=/poppins_files
+ENV        POPPINS_SCRIPTS_DIR=$NIFI_HOME/scripts
+
+# Install nodejs and npm for scripts
+RUN        curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN        apt-get update && apt-get install -y nodejs git npm
+
+# Create volume dirs for cluster
+VOLUME     ${POPPINS_FILES_DIR} \
+           ${POPPINS_SCRIPTS_DIR} \
+           ${NIFI_HOME}/conf/ \
+           ${NIFI_HOME}/certs/ \
+           $NIFI_HOME/.git/ \
            ${NIFI_HOME}
+
+# Copy files from our repo
+RUN        mkdir $POPPINS_FILES_DIR && mkdir $POPPINS_SCRIPTS_DIR && mkdir $NIFI_HOME/certs/ && mkdir ~/.ssh/
 COPY       poppins_files $POPPINS_FILES_DIR/
-COPY       certs/* $POPPINS_CERTS
+COPY       certs/* $NIFI_HOME/certs/
 COPY       scripts $POPPINS_SCRIPTS_DIR/
-COPY       conf/bootstrap.conf $POPPINS_CONF
-COPY       conf/authorizers.xml $POPPINS_CONF
-COPY       conf/nifi.properties $POPPINS_CONF
-COPY       conf/flow.xml.gz $POPPINS_CONF
-COPY       .git $POPPINS_GIT
-RUN        apk add --no-cache openssh-client && ssh-keyscan -t rsa github.com >> $POPPINS_SSH/known_hosts
-RUN        cd $POPPINS_SCRIPTS_DIR/cnet2ocds && npm install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && npm install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cnet32ocds && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../pot2ocds && npm install --production=true \
---modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cargografias-transformer && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules
+COPY       --chown=nifi:nifi conf/bootstrap.conf $NIFI_HOME/conf/
+COPY       --chown=nifi:nifi conf/authorizers.xml $NIFI_HOME/conf/
+COPY       --chown=nifi:nifi conf/nifi.properties $NIFI_HOME/conf/
+COPY       --chown=nifi:nifi conf/flow.xml.gz $NIFI_HOME/conf/
+COPY       --chown=nifi:nifi .git $NIFI_HOME/.git/
+
+# Install remote scripts
+RUN        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+RUN        cd $POPPINS_SCRIPTS_DIR/cnet2ocds && npm install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && npm install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cnet32ocds && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../pot2ocds && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cargografias-transformer && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules
+
+# Change back the owner of the created files and folders
+RUN        chown nifi:nifi $NIFI_HOME/conf/* $NIFI_HOME/certs $NIFI_HOME/certs/* $POPPINS_FILES_DIR $POPPINS_FILES_DIR/* $POPPINS_SCRIPTS_DIR $POPPINS_SCRIPTS_DIR/*
