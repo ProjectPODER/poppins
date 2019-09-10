@@ -7,7 +7,7 @@
 include /var/lib/jenkins/.env
 include /var/lib/jenkins/apps_data
 
-POPPINS_APP_PORT = 8081:8081
+POPPINS_APP_PORT = 8080:8080
 
 .PHONY: all build test release clean help
 
