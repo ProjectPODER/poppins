@@ -1,6 +1,6 @@
 # Poppins works on Apache NiFi.
 # Dockerfile inheritance: nifi, openjdk:8-jre, debian:stretch-slim
-FROM        apache/nifi:1.8.0
+FROM        apache/nifi:1.9.0
 
 # NOTE: This docker image inherits:
 # EXPOSE    8080 8443 10000 8000
