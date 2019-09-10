@@ -22,8 +22,7 @@ VOLUME     ${POPPINS_FILES_DIR} \
            ${NIFI_HOME}/conf/ \
            ${NIFI_HOME}/certs/ \
            $NIFI_HOME/.git/ \
-           ${NIFI_HOME} \
-
+           ${NIFI_HOME} 
 
 # Copy files from our repo
 #RUN        mkdir $POPPINS_FILES_DIR && mkdir $POPPINS_SCRIPTS_DIR && mkdir $NIFI_HOME/certs/ && mkdir ~/.ssh/
