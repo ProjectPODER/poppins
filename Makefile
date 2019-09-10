@@ -7,7 +7,8 @@
 include /var/lib/jenkins/.env
 include /var/lib/jenkins/apps_data
 
-POPPINS_APP_PORT = 8080:8080
+# Se pone el puerto 8081 porque en kmaji ya esta ocupado el 8080.
+POPPINS_APP_PORT = 8081:8081
 
 .PHONY: all build test release clean help
 
