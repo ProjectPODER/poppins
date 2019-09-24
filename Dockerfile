@@ -20,7 +20,7 @@ RUN        apt-get update && apt-get install -y nodejs git npm
 VOLUME     ${POPPINS_FILES_DIR} \
            ${POPPINS_SCRIPTS_DIR} \
            ${NIFI_HOME}/conf/ \
-           ${NIFI_HOME}/certs/ \
+#           ${NIFI_HOME}/certs/ \
            $NIFI_HOME/.git/ \
            ${NIFI_HOME}
 
@@ -28,7 +28,7 @@ VOLUME     ${POPPINS_FILES_DIR} \
 #RUN        mkdir $POPPINS_FILES_DIR && mkdir $POPPINS_SCRIPTS_DIR && mkdir $NIFI_HOME/certs/ && mkdir ~/.ssh/
 RUN         mkdir ~/.ssh/
 COPY       poppins_files $POPPINS_FILES_DIR/
-COPY       certs/* $NIFI_HOME/certs/
+#COPY       certs/* $NIFI_HOME/certs/
 COPY       scripts $POPPINS_SCRIPTS_DIR/
 COPY       --chown=nifi:nifi conf/bootstrap.conf $NIFI_HOME/conf/
 #COPY       --chown=nifi:nifi conf/authorizers.xml $NIFI_HOME/conf/
