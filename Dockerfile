@@ -42,3 +42,6 @@ RUN        cd $POPPINS_SCRIPTS_DIR/cnet2ocds && npm install  --production=true -
 
 # Change back the owner of the created files and folders
 RUN        chown nifi:nifi $NIFI_HOME/conf/* $NIFI_HOME/certs $NIFI_HOME/certs/* $POPPINS_FILES_DIR $POPPINS_FILES_DIR/* $POPPINS_SCRIPTS_DIR $POPPINS_SCRIPTS_DIR/*
+
+# copy cert to keytool
+RUN      keytool -import -trustcacerts -file ${NIFI_HOME}/certs/nifi-cert.pem -alias POPPINS -keystore ${JAVA_HOME}/lib/security/cacerts -noprompt -storepass changeit
