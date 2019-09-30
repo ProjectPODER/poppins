@@ -14,14 +14,15 @@ ENV NIFI_REGISTRY_BASE_DIR=/opt/nifi-registry
 # Copy flow_storage dir
 #COPY --chown=nifi:nifi flow_storage $FLOW_STORAGE_DIR
 
+COPY  certs/nifi.crt ${NIFI_REGISTRY_HOME}
+COPY  certs/nifi-trust.jks ${NIFI_REGISTRY_HOME}
+COPY  certs/ca.crt ${NIFI_REGISTRY_HOME}
+COPY  certs/poppins-registry.beta.quienesquien.wiki.crt ${NIFI_REGISTRY_HOME}
+
 # Copy cert to keytool
-COPY  nifi.crt ${NIFI_REGISTRY_HOME}
-COPY  nifi-trust.jks ${NIFI_REGISTRY_HOME}
-COPY  ca.crt ${NIFI_REGISTRY_HOME}
-COPY  poppins-registry.beta.quienesquien.wiki.crt ${NIFI_REGISTRY_HOME}
-#RUN   keytool -import -trustcacerts -file ${NIFI_REGISTRY_HOME}/nifi-cert.pem -alias REGISTRY -keystore ${JAVA_HOME}/jre/lib/security/cacerts -noprompt -storepass changeit
 RUN    keytool -importcert -v -trustcacerts -alias root_ca -file ${NIFI_REGISTRY_HOME}/ca.crt -keystore ${NIFI_REGISTRY_HOME}/nifi-trust.jks -storepass myadminpw -noprompt
 RUN    keytool -importcert -alias nifi-poppins -file ${NIFI_REGISTRY_HOME}/nifi.crt -keystore ${NIFI_REGISTRY_HOME}/nifi-trust.jks -storepass myadminpw -noprompt
 RUN    keytool -importcert -alias $HOST_NODE -file ${NIFI_REGISTRY_HOME}/poppins-registry.beta.quienesquien.wiki.crt -keystore ${NIFI_REGISTRY_HOME}/nifi-trust.jks -storepass myadminpw -noprompt
+
 USER nifi
 WORKDIR ${NIFI_REGISTRY_HOME}
