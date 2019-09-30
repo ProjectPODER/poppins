@@ -13,9 +13,14 @@ ENV NIFI_REGISTRY_BASE_DIR=/opt/nifi-registry
 
 # Copy flow_storage dir
 #COPY --chown=nifi:nifi flow_storage $FLOW_STORAGE_DIR
+
 # Copy cert to keytool
-COPY  nifi-cert.pem ${NIFI_REGISTRY_HOME}
-RUN   keytool -import -trustcacerts -file ${NIFI_REGISTRY_HOME}/nifi-cert.pem -alias REGISTRY -keystore ${JAVA_HOME}/jre/lib/security/cacerts -noprompt -storepass changeit
+COPY  nifi.crt ${NIFI_REGISTRY_HOME}
+COPY  nifi-trust.jks ${NIFI_REGISTRY_HOME}
+COPY  ca.crt ${NIFI_REGISTRY_HOME}
+#RUN   keytool -import -trustcacerts -file ${NIFI_REGISTRY_HOME}/nifi-cert.pem -alias REGISTRY -keystore ${JAVA_HOME}/jre/lib/security/cacerts -noprompt -storepass changeit
+RUN    keytool -importcert -v -trustcacerts -alias root -file ${NIFI_REGISTRY_HOME}/ca.crt -keystore ${NIFI_REGISTRY_HOME}/nifi-trust.jks -storepass myadminpw -noprompt
+RUN    keytool -importcert -alias poppins -file ${NIFI_REGISTRY_HOME}/nifi.crt -keystore ${NIFI_REGISTRY_HOME}/nifi-trust.jks -storepass myadminpw -noprompt
 
 USER nifi
 WORKDIR ${NIFI_REGISTRY_HOME}
