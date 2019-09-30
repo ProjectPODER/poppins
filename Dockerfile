@@ -11,6 +11,7 @@ FROM        apache/nifi:1.9.2
 USER       root
 ENV        POPPINS_FILES_DIR=/poppins_files
 ENV        POPPINS_SCRIPTS_DIR=$NIFI_HOME/scripts
+ENV        NIFI_CERTS_DIR=$NIFI_HOME/certs/
 
 # Install nodejs and npm for scripts
 RUN        curl -sL https://deb.nodesource.com/setup_10.x | bash -
@@ -28,7 +29,7 @@ VOLUME     ${POPPINS_FILES_DIR} \
 #RUN        mkdir $POPPINS_FILES_DIR && mkdir $POPPINS_SCRIPTS_DIR && mkdir $NIFI_HOME/certs/ && mkdir ~/.ssh/
 RUN         mkdir ~/.ssh/
 COPY       poppins_files $POPPINS_FILES_DIR/
-COPY       certs/* $NIFI_HOME/certs/
+COPY       certs/* $NIFI_CERTS_DIR
 COPY       scripts $POPPINS_SCRIPTS_DIR/
 COPY       --chown=nifi:nifi conf/bootstrap.conf $NIFI_HOME/conf/
 #COPY       --chown=nifi:nifi conf/authorizers.xml $NIFI_HOME/conf/
@@ -44,6 +45,6 @@ RUN        cd $POPPINS_SCRIPTS_DIR/cnet2ocds && npm install  --production=true -
 RUN        chown nifi:nifi $NIFI_HOME/conf/* $NIFI_HOME/certs $NIFI_HOME/certs/* $POPPINS_FILES_DIR $POPPINS_FILES_DIR/* $POPPINS_SCRIPTS_DIR $POPPINS_SCRIPTS_DIR/*
 
 # copy certs to keytool
-RUN       keytool -importcert -v -trustcacerts -alias root-ca-cert -file ${NIFI_HOME}/certs/ca.crt -keystore ${NIFI_HOME}/certs/nifi-trust.jks -storepass myadminpw -noprompt
-RUN       keytool -importcert -alias admin-nifi-cert -file ${NIFI_HOME}/certs/nifi.crt -keystore ${NIFI_HOME}/certs/nifi-trust.jks -storepass myadminpw -noprompt
-RUN       keytool -importcert -alias nifi-cert -file ${NIFI_HOME}/certs/localhost.crt -keystore ${NIFI_HOME}/certs/nifi-trust.jks -storepass myadminpw -noprompt
+RUN       keytool -importcert -v -trustcacerts -alias root-ca-cert -file ${NIFI_CERTS_DIR}/ca.crt -keystore ${NIFI_CERTS_DIR}/nifi-trust.jks -storepass myadminpw -noprompt
+RUN       keytool -importcert -alias admin-nifi-cert -file ${NIFI_CERTS_DIR}/nifi.crt -keystore ${NIFI_CERTS_DIR}/nifi-trust.jks -storepass myadminpw -noprompt
+RUN       keytool -importcert -alias nifi-cert -file ${NIFI_CERTS_DIR}/localhost.crt -keystore ${NIFI_CERTS_DIR}/nifi-trust.jks -storepass myadminpw -noprompt
