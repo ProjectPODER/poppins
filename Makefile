@@ -26,10 +26,10 @@ test:
 	@echo "Run ${POPPINS_DOCKER_REPO} image."
 	docker run --name ${POPPINS_APP_NAME} -p ${POPPINS_APP_PORT} -d ${POPPINS_DOCKER_REPO}
 	@echo "Wait until NiFi is fully started."
-	sleep 90
+	sleep 15
 	docker logs ${POPPINS_APP_NAME}
 	@echo "Connect to nifi using nifi-toolkit."
-	docker exec ${POPPINS_APP_NAME} /opt/nifi/nifi-toolkit-current/bin/cli.sh nifi current-user 2>/dev/null; true
+	#docker exec ${POPPINS_APP_NAME} /opt/nifi/nifi-toolkit-current/bin/cli.sh nifi current-user 2>/dev/null; true
 
 release:
 	@echo "Push ${POPPINS_DOCKER_REPO} image to docker registry."
