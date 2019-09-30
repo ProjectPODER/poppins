@@ -5,7 +5,7 @@ def CREDENTIALS
 pipeline {
   agent { label 'swarm' }
   stages {
-    stage ('Checkout and Clean') {
+    stage ('Checkout') {
       steps {
         script {
           URL='http://gitlab.rindecuentas.org/equipo-qqw/poppins.git'
