@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source $HOME/allvars
-POPPINS_APP_PORT = 8081:8081
+POPPINS_APP_PORT=8081:8081
 
 build() {
 	echo -n ""

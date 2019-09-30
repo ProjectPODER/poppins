@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source $HOME/allvars
-APP_PORT = 18080:18080
+APP_PORT=18080:18080
 
 build() {
 	echo -n ""
