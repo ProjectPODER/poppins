@@ -22,7 +22,7 @@ test() {
 
 release() {
 	echo -n "Push ${REGISTRY_DOCKER_REPO} image to docker registry."
-	cat ${DOCKER_PWD} | docker login --username ${DOCKER_USER} --password-stdin
+	#cat ${DOCKER_PWD} | docker login --username ${DOCKER_USER} --password-stdin
 	docker tag  ${REGISTRY_DOCKER_REPO} ${REGISTRY_DOCKER_REPO}
 	docker push ${REGISTRY_DOCKER_REPO}
 }
@@ -55,5 +55,3 @@ help() {
 [[ "$1" == "release" ]] && release
 [[ "$1" == "clean" ]] && clean
 [[ "$1" == "help" ]] && help
-
-exit 0
