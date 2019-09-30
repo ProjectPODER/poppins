@@ -26,9 +26,9 @@ pipeline {
                 url: URL
               ]]
             ]
-          }      
+          }
         echo "Clean container and Image"
-        sh 'make clean'
+        sh 'bash docker_build.sh clean'
       }
     }
     stage ('Build Image') {
@@ -36,7 +36,7 @@ pipeline {
       steps {
         script {
           echo "Build container"
-          sh 'make build'
+          sh 'bash docker_build.sh build'
         }
       }
     }
@@ -45,7 +45,7 @@ pipeline {
       steps {
         script {
           echo "Test container"
-          sh 'make test'
+          sh 'bash docker_build.sh test'
         }
       }
     }
@@ -54,9 +54,9 @@ pipeline {
       steps {
         script {
           echo "Push container image to dockerhub registry"
-          sh 'make release'
+          sh 'bash docker_build.sh release'
 	        echo "Clean container and Image"
-	        sh 'make clean'
+	        sh 'bash docker_build.sh clean'
         }
       }
     }
