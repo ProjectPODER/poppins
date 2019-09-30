@@ -4,7 +4,8 @@
 # author: Jorge Armando Medina
 # desc: Script to build, test and release the poppins docker image.
 
-include ${HOME}/allvars
+export home=${HOME}
+include ${home}/allvars
 
 APP_PORT = 18080:18080
 
