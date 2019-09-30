@@ -55,3 +55,5 @@ help() {
 [[ "$1" == "release" ]] && release
 [[ "$1" == "clean" ]] && clean
 [[ "$1" == "help" ]] && help
+
+exit 0
