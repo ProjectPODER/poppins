@@ -15,7 +15,7 @@ ENV NIFI_CERTS_DIR=${NIFI_REGISTRY_HOME}/certs
 # Copy flow_storage dir
 #COPY --chown=nifi:nifi flow_storage $FLOW_STORAGE_DIR
 
-COPY  certs/* ${NIFI_CERTS_DIR}
+COPY  certs/* ${NIFI_CERTS_DIR}/
 
 # Copy cert to keytool
 RUN   keytool -importcert -v -trustcacerts -alias root-ca-cert -file ${NIFI_CERTS_DIR}/ca.crt -keystore ${NIFI_CERTS_DIR}/nifi-trust.jks -storepass myadminpw -noprompt
