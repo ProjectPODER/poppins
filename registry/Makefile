@@ -4,8 +4,7 @@
 # author: Jorge Armando Medina
 # desc: Script to build, test and release the poppins docker image.
 
-include /var/lib/jenkins/.env
-include /var/lib/jenkins/apps_data
+include ${HOME}/allvars
 
 APP_PORT = 18080:18080
 

@@ -27,8 +27,6 @@ pipeline {
               ]]
             ]
           }
-        echo "Set App Vars"
-        sh 'cd registry; bash setAppData.sh'
         echo "Clean container and Image"
         sh 'cd registry; make clean'
       }

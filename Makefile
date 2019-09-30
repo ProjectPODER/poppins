@@ -4,8 +4,7 @@
 # author: Jorge Armando Medina
 # desc: Script to build, test and release the poppins docker image.
 
-include /var/lib/jenkins/.env
-include /var/lib/jenkins/apps_data
+include ${HOME}/allvars
 
 # Se pone el puerto 8081 porque en kmaji ya esta ocupado el 8080.
 POPPINS_APP_PORT = 8081:8081

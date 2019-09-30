@@ -26,9 +26,7 @@ pipeline {
                 url: URL
               ]]
             ]
-          }
-        echo "Set App Vars"
-        sh 'bash setAppData.sh'
+          }      
         echo "Clean container and Image"
         sh 'make clean'
       }
