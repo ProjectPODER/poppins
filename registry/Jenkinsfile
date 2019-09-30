@@ -28,7 +28,7 @@ pipeline {
             ]
           }
         echo "Clean container and Image"
-        sh 'cd registry; bash docker_build.sh clean 2>/dev/null; true'
+        sh 'cd registry; bash docker_build.sh clean'
       }
     }
     stage ('Build Image') {
