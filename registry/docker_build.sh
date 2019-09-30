@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source $HOME/allvars
+export $ENVIRONMENT="stg"
 APP_PORT=18080:18080
 
 build() {
@@ -54,3 +55,4 @@ help() {
 [[ "$1" == "release" ]] && release
 [[ "$1" == "clean" ]] && clean
 [[ "$1" == "help" ]] && help
+exit 0
