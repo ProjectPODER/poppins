@@ -44,7 +44,6 @@ RUN        cd $POPPINS_SCRIPTS_DIR/cnet2ocds && npm install  --production=true -
 RUN        chown nifi:nifi $NIFI_HOME/conf/* $NIFI_HOME/certs $NIFI_HOME/certs/* $POPPINS_FILES_DIR $POPPINS_FILES_DIR/* $POPPINS_SCRIPTS_DIR $POPPINS_SCRIPTS_DIR/*
 
 # copy certs to keytool
-#RUN      keytool -import -trustcacerts -file ${NIFI_HOME}/certs/nifi-cert.pem -alias POPPINS -keystore ${JAVA_HOME}/lib/security/cacerts -noprompt -storepass changeit
-RUN       keytool -importcert -v -trustcacerts -alias root-ca -file ${NIFI_HOME}/certs/ca.crt -keystore ${NIFI_HOME}/certs/nifi-trust.jks -storepass myadminpw -noprompt
+RUN       keytool -importcert -v -trustcacerts -alias root-ca-certs -file ${NIFI_HOME}/certs/ca.crt -keystore ${NIFI_HOME}/certs/nifi-trust.jks -storepass myadminpw -noprompt
 RUN       keytool -importcert -alias admin-nifi -file nifi.crt -keystore ${NIFI_HOME}/certs/nifi-trust.jks -storepass myadminpw -noprompt
 RUN       keytool -importcert -alias nifi-certs -file ${NIFI_HOME}/certs/localhost.crt -keystore ${NIFI_HOME}/certs/nifi-trust.jks -storepass myadminpw -noprompt
