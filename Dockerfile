@@ -45,5 +45,5 @@ RUN        chown nifi:nifi $NIFI_HOME/conf/* $NIFI_HOME/certs $NIFI_HOME/certs/*
 
 # copy certs to keytool
 RUN       keytool -importcert -v -trustcacerts -alias root-ca-certs -file ${NIFI_HOME}/certs/ca.crt -keystore ${NIFI_HOME}/certs/nifi-trust.jks -storepass myadminpw -noprompt
-RUN       keytool -importcert -alias admin-nifi -file nifi.crt -keystore ${NIFI_HOME}/certs/nifi-trust.jks -storepass myadminpw -noprompt
+RUN       keytool -importcert -alias admin-nifi -file ${NIFI_HOME}/certs/nifi.crt -keystore ${NIFI_HOME}/certs/nifi-trust.jks -storepass myadminpw -noprompt
 RUN       keytool -importcert -alias nifi-certs -file ${NIFI_HOME}/certs/localhost.crt -keystore ${NIFI_HOME}/certs/nifi-trust.jks -storepass myadminpw -noprompt
