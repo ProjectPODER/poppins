@@ -20,9 +20,9 @@ COPY  certs/ca.crt ${NIFI_REGISTRY_HOME}
 COPY  certs/poppins-registry.beta.quienesquien.wiki.crt ${NIFI_REGISTRY_HOME}
 
 # Copy cert to keytool
-RUN    keytool -importcert -v -trustcacerts -alias root_ca -file ${NIFI_REGISTRY_HOME}/ca.crt -keystore ${NIFI_REGISTRY_HOME}/nifi-trust.jks -storepass myadminpw -noprompt
-RUN    keytool -importcert -alias nifi-poppins -file ${NIFI_REGISTRY_HOME}/nifi.crt -keystore ${NIFI_REGISTRY_HOME}/nifi-trust.jks -storepass myadminpw -noprompt
-RUN    keytool -importcert -alias $HOST_NODE -file ${NIFI_REGISTRY_HOME}/poppins-registry.beta.quienesquien.wiki.crt -keystore ${NIFI_REGISTRY_HOME}/nifi-trust.jks -storepass myadminpw -noprompt
+RUN   keytool -importcert -v -trustcacerts -alias root-ca-cert -file ${NIFI_REGISTRY_HOME}/ca.crt -keystore ${NIFI_REGISTRY_HOME}/nifi-trust.jks -storepass myadminpw -noprompt
+RUN   keytool -importcert -alias admin-nifi-cert -file ${NIFI_HOME}/certs/nifi.crt -keystore ${NIFI_HOME}/certs/nifi-trust.jks -storepass myadminpw -noprompt
+RUN   keytool -importcert -alias registry-cert -file ${NIFI_REGISTRY_HOME}/poppins-registry.beta.quienesquien.wiki.crt -keystore ${NIFI_REGISTRY_HOME}/nifi-trust.jks -storepass myadminpw -noprompt
 
 USER nifi
 WORKDIR ${NIFI_REGISTRY_HOME}
