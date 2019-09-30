@@ -5,10 +5,9 @@ APP_PORT=18080:18080
 
 build() {
 	echo -n ""
-	echo -n "Building ${REGISTRY_DOCKER_REPO} image."
-	echo -n ""
-	docker build -t ${REGISTRY_DOCKER_REPO} .
-	echo -n "Listing ${REGISTRY_DOCKER_REPO} image."
+	echo -n "Building $REGISTRY_DOCKER_REPO image."
+	docker build -t $REGISTRY_DOCKER_REPO .
+	echo -n "Listing $REGISTRY_DOCKER_REPO image."
 	docker images
 }
 
@@ -24,7 +23,7 @@ release() {
 	echo -n "Push ${REGISTRY_DOCKER_REPO} image to docker registry."
 	#cat ${DOCKER_PWD} | docker login --username ${DOCKER_USER} --password-stdin
 	docker tag  ${REGISTRY_DOCKER_REPO} ${REGISTRY_DOCKER_REPO}
-	docker push ${REGISTRY_DOCKER_REPO}
+docker push ${REGISTRY_DOCKER_REPO}
 }
 
 clean() {
@@ -55,5 +54,3 @@ help() {
 [[ "$1" == "release" ]] && release
 [[ "$1" == "clean" ]] && clean
 [[ "$1" == "help" ]] && help
-
-exit 0
