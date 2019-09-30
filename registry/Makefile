@@ -25,7 +25,7 @@ test:
 	@echo "Run ${REGISTRY_DOCKER_REPO} image."
 	docker run --name ${REGISTRY_APP_NAME} -p ${APP_PORT} -d ${REGISTRY_DOCKER_REPO}
 	@echo "Wait until NiFi is fully started."
-	sleep 90
+	sleep 15
 	docker logs ${REGISTRY_APP_NAME}
 
 release:
