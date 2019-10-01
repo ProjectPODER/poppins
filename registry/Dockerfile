@@ -19,7 +19,7 @@ ENV POPPINS_CRT=${NIFI_CERTS_DIR}/poppins-registry.beta.quienesquien.wiki.crt
 # copy nifi certs
 COPY --chown=nifi:nifi nifi-certs/* ${NIFI_CERTS_DIR}/
 # create truststore and import cert for poppins-registry
-RUN keytool -importcert -v -trustcacerts -alias root-ca -file $ROOT_CA -keystore $NIFI_KEYSTORE -storepass myadminpw -noprompt
+RUN keytool -importcert -v -trustcacerts -alias croot-ca -file $ROOT_CA -keystore $NIFI_KEYSTORE -storepass myadminpw -noprompt
 RUN keytool -importcert -alias cnifi-registry -file $POPPINS_CRT -keystore $NIFI_KEYSTORE -storepass myadminpw -noprompt
 RUN keytool -importcert -alias cnifi-admin -file $NIFI_CRT -keystore $NIFI_KEYSTORE -storepass myadminpw -noprompt
 

@@ -13,11 +13,11 @@ ENV        POPPINS_FILES_DIR=/poppins_files
 ENV        POPPINS_SCRIPTS_DIR=$NIFI_HOME/scripts
 # nifi certs vars
 ENV        NIFI_CERTS_DIR=$NIFI_HOME/certs/
-ENV        NIFI_CERTS_DIR=${NIFI_REGISTRY_HOME}/certs/
-ENV        ROOT_CA=${NIFI_CERTS_DIR}/rootCA.crt
-ENV        NIFI_CRT=${NIFI_CERTS_DIR}/nifi.crt
-ENV        NIFI_KEYSTORE=${NIFI_CERTS_DIR}/nifi-trust.jks
-ENV        POPPINS_CRT=${NIFI_CERTS_DIR}/poppins-registry.beta.quienesquien.wiki.crt
+ENV        NIFI_CERTS_DIR=$NIFI_REGISTRY_HOME/certs/
+ENV        ROOT_CA=$NIFI_CERTS_DIR/rootCA.crt
+ENV        NIFI_CRT=$NIFI_CERTS_DIR/nifi.crt
+ENV        NIFI_KEYSTORE=$NIFI_CERTS_DIR/nifi-trust.jks
+ENV        POPPINS_CRT=$NIFI_CERTS_DIR/poppins-registry.beta.quienesquien.wiki.crt
 # Install nodejs and npm for scripts
 RUN        curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN        apt-get update && apt-get install -y nodejs git npm
@@ -36,8 +36,7 @@ COPY       scripts $POPPINS_SCRIPTS_DIR/
 COPY       --chown=nifi:nifi conf/bootstrap.conf $NIFI_HOME/conf/
 COPY       --chown=nifi:nifi conf/flow.xml.gz $NIFI_HOME/conf/
 COPY       --chown=nifi:nifi .git $NIFI_HOME/.git/
-# copy nifi certs
-COPY       nifi-certs/* ${NIFI_CERTS_DIR}/
+COPY       --chown=nifi:nifi nifi-certs/* ${NIFI_HOME}/certs/
 # Install remote scripts
 RUN        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 RUN        cd $POPPINS_SCRIPTS_DIR/cnet2ocds && npm install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && npm install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cnet32ocds && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../pot2ocds && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cargografias-transformer && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules
