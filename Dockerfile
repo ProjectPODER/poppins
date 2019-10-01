@@ -9,6 +9,7 @@ FROM        apache/nifi:1.9.2
 
 # We're creating files at the root, so we need to be root.
 USER       root
+ENV        NIFI_HOME=/opt/nifi/nifi-current
 ENV        POPPINS_FILES_DIR=/poppins_files
 ENV        POPPINS_SCRIPTS_DIR=$NIFI_HOME/scripts
 # nifi certs vars
@@ -43,6 +44,6 @@ RUN        cd $POPPINS_SCRIPTS_DIR/cnet2ocds && npm install  --production=true -
 # Change back the owner of the created files and folders
 RUN        chown nifi:nifi $NIFI_HOME/conf/* $NIFI_HOME/certs $NIFI_HOME/certs/* $POPPINS_FILES_DIR $POPPINS_FILES_DIR/* $POPPINS_SCRIPTS_DIR $POPPINS_SCRIPTS_DIR/*
 # create truststore and import cert for poppins-registry
-RUN keytool -importcert -v -trustcacerts -alias root-ca -file $ROOT_CA -keystore $NIFI_KEYSTORE -storepass myadminpw -noprompt
+RUN keytool -importcert -v -trustcacerts -alias croot-ca -file $ROOT_CA -keystore $NIFI_KEYSTORE -storepass myadminpw -noprompt
 RUN keytool -importcert -alias cnifi-registry -file $POPPINS_CRT -keystore $NIFI_KEYSTORE -storepass myadminpw -noprompt
 RUN keytool -importcert -alias cnifi-admin -file $NIFI_CRT -keystore $NIFI_KEYSTORE -storepass myadminpw -noprompt
