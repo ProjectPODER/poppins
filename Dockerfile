@@ -31,7 +31,6 @@ COPY       scripts ${POPPINS_SCRIPTS_DIR}/
 COPY       --chown=nifi:nifi conf/bootstrap.conf $NIFI_HOME/conf/
 COPY       --chown=nifi:nifi conf/flow.xml.gz $NIFI_HOME/conf/
 COPY       --chown=nifi:nifi .git $NIFI_HOME/.git/
-COPY       --chown=nifi:nifi nifi-certs/nifi-trust.jks /opt/nifi/nifi-current/certs/nifi-trust.jks
 # Install remote scripts
 RUN        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 RUN        cd $POPPINS_SCRIPTS_DIR/cnet2ocds && npm install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && npm install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cnet32ocds && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../pot2ocds && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cargografias-transformer && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules

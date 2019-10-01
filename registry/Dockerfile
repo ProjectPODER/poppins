@@ -10,8 +10,6 @@ USER root
 ENV FLOW_STORAGE_DIR=/flow_storage
 ENV NIFI_REGISTRY_HOME=/opt/nifi-registry/nifi-registry-0.5.0
 ENV NIFI_REGISTRY_BASE_DIR=/opt/nifi-registry
-# copy nifi certs
-COPY --chown=nifi:nifi nifi-certs/nifi-trust.jks /opt/nifi/nifi-registry-current/certs/nifi-trust.jks
 
 USER nifi
 WORKDIR ${NIFI_REGISTRY_HOME}
