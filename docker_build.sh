@@ -15,7 +15,7 @@ build() {
 
 test () {
 	echo -e "Run ${POPPINS_DOCKER_REPO} image."
-	docker run --eame ${POPPINS_APP_NAME} -p ${POPPINS_APP_PORT} -d ${POPPINS_DOCKER_REPO}
+	docker run --name ${POPPINS_APP_NAME} -p ${POPPINS_APP_PORT} -d ${POPPINS_DOCKER_REPO}
 	echo -e "Wait until NiFi is fully started."
 	sleep 15
 	docker logs ${POPPINS_APP_NAME}
