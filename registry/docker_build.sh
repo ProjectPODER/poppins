@@ -22,9 +22,11 @@ test() {
 
 release() {
 	echo -e "Push ${REGISTRY_DOCKER_REPO} image to docker registry."
-	#cat ${DOCKER_PWD} | docker login --username ${DOCKER_USER} --password-stdin
+	if [[ ! -z "$DOCKER_PWD" ]]; then
+		cat ${DOCKER_PWD} | docker login --username ${DOCKER_USER} --password-stdin
+	fi
 	docker tag  ${REGISTRY_DOCKER_REPO} ${REGISTRY_DOCKER_REPO}
-docker push ${REGISTRY_DOCKER_REPO}
+	docker push ${REGISTRY_DOCKER_REPO}
 }
 
 clean() {

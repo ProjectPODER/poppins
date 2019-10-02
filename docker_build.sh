@@ -25,7 +25,9 @@ test () {
 
 release() {
 	echo -e "Push ${POPPINS_DOCKER_REPO} image to docker registry."
-	cat ${DOCKER_PWD} | docker login --username ${DOCKER_USER} --password-stdin
+	if [[ ! -z "$DOCKER_PWD" ]]; then
+		cat ${DOCKER_PWD} | docker login --username ${DOCKER_USER} --password-stdin
+	fi
 	docker tag  ${POPPINS_DOCKER_REPO} ${POPPINS_DOCKER_REPO}
 	docker push ${POPPINS_DOCKER_REPO}
 }
