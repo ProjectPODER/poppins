@@ -5,11 +5,11 @@ def CREDENTIALS
 pipeline {
   agent { label 'swarm' }
   stages {
-    stage ('Checkout and Clean') {
+    stage ('Checkout') {
       steps {
         script {
           URL='http://gitlab.rindecuentas.org/equipo-qqw/poppins.git'
-          BRANCH='*/master'
+          BRANCH='*/feature/nifi_cluster'
           CREDENTIALS='f28cf2d5-ce55-4f0b-9bad-c84376ce401d'
         }
           dir('new-dir') { sh 'pwd' }
@@ -27,10 +27,8 @@ pipeline {
               ]]
             ]
           }
-        echo "Set App Vars"
-        sh 'cd registry; bash setAppData.sh'
         echo "Clean container and Image"
-        sh 'cd registry; make clean'
+        sh 'cd registry; bash docker_build.sh clean'
       }
     }
     stage ('Build Image') {
@@ -38,7 +36,7 @@ pipeline {
       steps {
         script {
           echo "Build container"
-          sh 'cd registry; make build'
+          sh 'cd registry; bash docker_build.sh build'
         }
       }
     }
@@ -47,7 +45,7 @@ pipeline {
       steps {
         script {
           echo "Test container"
-          sh 'cd registry; make test'
+          sh 'cd registry; bash docker_build.sh test'
         }
       }
     }
@@ -56,37 +54,11 @@ pipeline {
       steps {
         script {
           echo "Push container image to dockerhub registry"
-          sh 'cd registry; make release'
+          sh 'cd registry; bash docker_build.sh release'
 	        echo "Clean container ans Image"
-	        sh 'cd registry; make clean'
+	        sh 'cd registry; bash docker_build.sh clean'
         }
       }
     }
-    stage ('Deploy to cluster') {
-      steps {
-        script {
-          URL='http://gitlab.rindecuentas.org/equipo-qqw/qqw-doks.git'
-          BRANCH='*/master'
-          CREDENTIALS='f28cf2d5-ce55-4f0b-9bad-c84376ce401d'
-        }
-          dir('new-dir') { sh 'pwd' }
-          ansiColor('xterm') {
-            checkout changelog: false, poll: false, scm:
-            [$class:
-             'GitSCM', branches: [[name: BRANCH]],
-              doGenerateSubmoduleConfigurations: false,
-              extensions: [],
-              submoduleCfg: [],
-              userRemoteConfigs:
-              [[
-                credentialsId: CREDENTIALS,
-                url: URL
-              ]]
-            ]
-          }
-        echo "Deploy to Cluster"
-        sh 'cd kubernetes/registry-poppins; bash scripts/deploy.sh'
-      }
-    } // End stage deploy
   }
 }

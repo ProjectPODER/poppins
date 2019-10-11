@@ -5,7 +5,7 @@ def CREDENTIALS
 pipeline {
   agent { label 'swarm' }
   stages {
-    stage ('Checkout and Clean') {
+    stage ('Checkout') {
       steps {
         script {
           URL='http://gitlab.rindecuentas.org/equipo-qqw/poppins.git'
@@ -27,10 +27,8 @@ pipeline {
               ]]
             ]
           }
-        echo "Set App Vars"
-        sh 'bash setAppData.sh'
         echo "Clean container and Image"
-        sh 'make clean'
+        sh 'bash docker_build.sh clean'
       }
     }
     stage ('Build Image') {
@@ -38,7 +36,7 @@ pipeline {
       steps {
         script {
           echo "Build container"
-          sh 'make build'
+          sh 'bash docker_build.sh build'
         }
       }
     }
@@ -47,7 +45,7 @@ pipeline {
       steps {
         script {
           echo "Test container"
-          sh 'make test'
+          sh 'bash docker_build.sh test'
         }
       }
     }
@@ -56,37 +54,11 @@ pipeline {
       steps {
         script {
           echo "Push container image to dockerhub registry"
-          sh 'make release'
+          sh 'bash docker_build.sh release'
 	        echo "Clean container and Image"
-	        sh 'make clean'
+	        sh 'bash docker_build.sh clean'
         }
       }
     }
-    stage ('Deploy to cluster') {
-      steps {
-        script {
-          URL='http://gitlab.rindecuentas.org/equipo-qqw/qqw-doks.git'
-          BRANCH='*/master'
-          CREDENTIALS='f28cf2d5-ce55-4f0b-9bad-c84376ce401d'
-        }
-          dir('new-dir') { sh 'pwd' }
-          ansiColor('xterm') {
-            checkout changelog: false, poll: false, scm:
-            [$class:
-             'GitSCM', branches: [[name: BRANCH]],
-              doGenerateSubmoduleConfigurations: false,
-              extensions: [],
-              submoduleCfg: [],
-              userRemoteConfigs:
-              [[
-                credentialsId: CREDENTIALS,
-                url: URL
-              ]]
-            ]
-          }
-        echo "Deploy to Cluster"
-        sh 'cd kubernetes/poppins; bash scripts/deploy.sh'
-      }
-    } // End stage deploy
   }
 }
