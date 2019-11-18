@@ -17,25 +17,20 @@ ENV        NIFI_CERTS_DIR=${NIFI_HOME}/certs/
 RUN        curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN        apt-get install -y nodejs git
 # Create volume dirs for cluster
-VOLUME     ${POPPINS_SCRIPTS_DIR} \
-           ${NIFI_HOME}/conf/ \
+VOLUME     ${NIFI_HOME}/conf/ \
            ${NIFI_HOME}/certs/ \
-           ${NIFI_HOME}/.git/ \
-           ${NIFI_HOME}
+           ${NIFI_HOME}/.git/
 # Copy files from our repo
 RUN         mkdir ~/.ssh/
 # COPY       poppins_files $POPPINS_FILES_DIR/
 COPY       certs/* ${NIFI_CERTS_DIR}/
+COPY       scripts ${POPPINS_SCRIPTS_DIR}/
+COPY       .gitmodules .
 COPY       --chown=nifi:nifi conf/bootstrap.conf $NIFI_HOME/conf/
 COPY       --chown=nifi:nifi conf/flow.xml.gz $NIFI_HOME/conf/
 COPY       --chown=nifi:nifi .git $NIFI_HOME/.git/
 # Install remote scripts
 RUN        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-RUN        cd $POPPINS_SCRIPTS_DIR/cnet2ocds && npm install --production=true
-RUN        cd $POPPINS_SCRIPTS_DIR/stream2db && npm install --production=true
-RUN        cd $POPPINS_SCRIPTS_DIR/cnet32ocds && npm install --production=true
-RUN        cd $POPPINS_SCRIPTS_DIR/pot2ocds && npm install --production=true
-RUN        cd $POPPINS_SCRIPTS_DIR/cargografias-transformer && npm install --production=true
-COPY       scripts ${POPPINS_SCRIPTS_DIR}/
+RUN        git submodule foreach npm ci --production=true
 # Change back the owner of the created files and folders
 RUN        chown nifi:nifi $NIFI_HOME/conf/* $NIFI_HOME/certs $NIFI_HOME/certs/* $POPPINS_SCRIPTS_DIR $POPPINS_SCRIPTS_DIR/*
