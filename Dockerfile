@@ -26,7 +26,6 @@ VOLUME     ${POPPINS_SCRIPTS_DIR} \
 RUN         mkdir ~/.ssh/
 # COPY       poppins_files $POPPINS_FILES_DIR/
 COPY       certs/* ${NIFI_CERTS_DIR}/
-COPY       scripts ${POPPINS_SCRIPTS_DIR}/
 COPY       --chown=nifi:nifi conf/bootstrap.conf $NIFI_HOME/conf/
 COPY       --chown=nifi:nifi conf/flow.xml.gz $NIFI_HOME/conf/
 COPY       --chown=nifi:nifi .git $NIFI_HOME/.git/
@@ -34,9 +33,9 @@ COPY       --chown=nifi:nifi .git $NIFI_HOME/.git/
 RUN        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 RUN        cd $POPPINS_SCRIPTS_DIR/cnet2ocds && npm install --production=true
 RUN        cd $POPPINS_SCRIPTS_DIR/stream2db && npm install --production=true
-RUN        cd $POPPINS_SCRIPTS_DIR/stream2db && npm install --production=true
 RUN        cd $POPPINS_SCRIPTS_DIR/cnet32ocds && npm install --production=true
 RUN        cd $POPPINS_SCRIPTS_DIR/pot2ocds && npm install --production=true
 RUN        cd $POPPINS_SCRIPTS_DIR/cargografias-transformer && npm install --production=true
+COPY       scripts ${POPPINS_SCRIPTS_DIR}/
 # Change back the owner of the created files and folders
 RUN        chown nifi:nifi $NIFI_HOME/conf/* $NIFI_HOME/certs $NIFI_HOME/certs/* $POPPINS_SCRIPTS_DIR $POPPINS_SCRIPTS_DIR/*
