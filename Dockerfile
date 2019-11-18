@@ -15,7 +15,7 @@ ENV        POPPINS_SCRIPTS_DIR=$NIFI_HOME/scripts
 ENV        NIFI_CERTS_DIR=${NIFI_HOME}/certs/
 # Install nodejs and npm for scripts
 RUN        curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN        apt-get update && apt-get install -y nodejs git npm
+RUN        apt-get install -y nodejs git
 # Create volume dirs for cluster
 VOLUME     ${POPPINS_SCRIPTS_DIR} \
            ${NIFI_HOME}/conf/ \
@@ -32,6 +32,6 @@ COPY       --chown=nifi:nifi conf/flow.xml.gz $NIFI_HOME/conf/
 COPY       --chown=nifi:nifi .git $NIFI_HOME/.git/
 # Install remote scripts
 RUN        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-RUN        cd $POPPINS_SCRIPTS_DIR/cnet2ocds && npm install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && npm install  --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../stream2db && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cnet32ocds && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../pot2ocds && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules && cd ../cargografias-transformer && npm install --production=true --modules_folder=$POPPINS_SCRIPTS_DIR/node_modules
+RUN        cd $POPPINS_SCRIPTS_DIR/cnet2ocds && npm install --production=true && cd ../stream2db && npm install --production=true && cd ../stream2db && npm install --production=true && cd ../cnet32ocds && npm install --production=true && cd ../pot2ocds && npm install --production=true && cd ../cargografias-transformer && npm install --production=true
 # Change back the owner of the created files and folders
 RUN        chown nifi:nifi $NIFI_HOME/conf/* $NIFI_HOME/certs $NIFI_HOME/certs/* $POPPINS_SCRIPTS_DIR $POPPINS_SCRIPTS_DIR/*
