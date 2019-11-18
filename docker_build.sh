@@ -2,20 +2,22 @@
 
 source $HOME/allvars
 POPPINS_APP_PORT=8081:8081
+VERSION=$(git rev-list --count HEAD)
+REPO=${DOCKER_REPO}/${POPPINS_APP_NAME}:0.5.${VERSION}
 export ENVIRONMENT="stg"
 
 build() {
 	echo -e ""
-	echo -e "Building ${POPPINS_DOCKER_REPO} image."
+	echo -e "Building ${REPO} image."
 	echo -e ""
-	docker build -t ${POPPINS_DOCKER_REPO} .
-	echo -e "Listing ${POPPINS_DOCKER_REPO} image."
+	docker build -t ${REPO} .
+	echo -e "Listing ${REPO} image."
 	docker images
 }
 
 test () {
-	echo -e "Run ${POPPINS_DOCKER_REPO} image."
-	docker run --name ${POPPINS_APP_NAME} -p ${POPPINS_APP_PORT} -d ${POPPINS_DOCKER_REPO}
+	echo -e "Run ${REPO} image."
+	docker run --name ${POPPINS_APP_NAME} -p ${POPPINS_APP_PORT} -d ${REPO}
 	echo -e "Wait until NiFi is fully started."
 	sleep 15
 	docker logs ${POPPINS_APP_NAME}
@@ -24,12 +26,12 @@ test () {
 }
 
 release() {
-	echo -e "Push ${POPPINS_DOCKER_REPO} image to docker registry."
+	echo -e "Push ${REPO} image to docker registry."
 	if [[ ! -z "$DOCKER_PWD" ]]; then
 		cat ${DOCKER_PWD} | docker login --username ${DOCKER_USER} --password-stdin
 	fi
-	docker tag  ${POPPINS_DOCKER_REPO} ${POPPINS_DOCKER_REPO}
-	docker push ${POPPINS_DOCKER_REPO}
+	docker tag  ${REPO} ${REPO}
+	docker push ${REPO}
 }
 
 clean() {
@@ -40,7 +42,7 @@ clean() {
 	docker rm ${POPPINS_APP_NAME}  2>/dev/null; true
 	echo -e ""
 	echo -e "Purging local images."
-	docker rmi ${POPPINS_DOCKER_REPO} 2>/dev/null; true
+	docker rmi ${REPO} 2>/dev/null; true
 }
 
 help() {
