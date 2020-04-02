@@ -1,15 +1,9 @@
-[submodule "scripts/cnet2ocds"]
-	path = scripts/cnet2ocds
-	url = http://gitlab.rindecuentas.org/equipo-qqw/cnet2ocds.git
+[submodule "scripts/transformer-ocds"]
+	path = scripts/transformer-ocds
+	url = http://gitlab.rindecuentas.org/equipo-qqw/transformer-ocds
 [submodule "scripts/stream2db"]
 	path = scripts/stream2db
 	url = http://gitlab.rindecuentas.org/equipo-qqw/stream2db.git
-[submodule "scripts/cnet32ocds"]
-	path = scripts/cnet32ocds
-	url = http://gitlab.rindecuentas.org/equipo-qqw/cnet32ocds.git
-[submodule "scripts/pot2ocds"]
-	path = scripts/pot2ocds
-	url = http://gitlab.rindecuentas.org/equipo-qqw/pot2ocds.git
 [submodule "scripts/cargografias-transformer"]
 	path = scripts/cargografias-transformer
 	url = http://gitlab.rindecuentas.org/equipo-qqw/cargografias-transformer.git
