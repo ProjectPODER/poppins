@@ -7,3 +7,6 @@
 [submodule "scripts/cargografias-transformer"]
 	path = scripts/cargografias-transformer
 	url = http://gitlab.rindecuentas.org/equipo-qqw/cargografias-transformer.git
+[submodule "scripts/mongo-indexer"]
+	path = scripts/mongo-indexer
+	url = http://gitlab.rindecuentas.org/equipo-qqw/mongo-indexer.git
