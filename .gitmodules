@@ -10,6 +10,6 @@
 [submodule "scripts/mongo-indexer"]
 	path = scripts/mongo-indexer
 	url = http://gitlab.rindecuentas.org/equipo-qqw/mongo-indexer.git
-[submodule "ocds-unique"]
+[submodule "scripts/ocds-unique"]
 	path = ocds-unique
 	url = http://gitlab.rindecuentas.org/equipo-qqw/ocds-unique.git
