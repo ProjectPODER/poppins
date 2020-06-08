@@ -12,4 +12,4 @@
 	url = http://gitlab.rindecuentas.org/equipo-qqw/mongo-indexer.git
 [submodule "scripts/ocds-unique"]
 	path = scripts/ocds-unique
-	url = http://gitlab.rindecuentas.org/equipo-qqw/ocds-unique
+	url = http://gitlab.rindecuentas.org/equipo-qqw/ocds-unique.git
