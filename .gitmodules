@@ -13,3 +13,6 @@
 [submodule "scripts/ocds-unique"]
 	path = scripts/ocds-unique
 	url = http://gitlab.rindecuentas.org/equipo-qqw/ocds-unique.git
+[submodule "scripts/record-compiler"]
+	path = scripts/record-compiler
+	url = http://gitlab.rindecuentas.org/equipo-qqw/record-compiler.git
