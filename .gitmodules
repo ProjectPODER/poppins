@@ -16,3 +16,9 @@
 [submodule "scripts/record-compiler"]
 	path = scripts/record-compiler
 	url = http://gitlab.rindecuentas.org/equipo-qqw/record-compiler.git
+[submodule "scripts/ocds-entity-extract"]
+	path = scripts/ocds-entity-extract
+	url = http://gitlab.rindecuentas.org/equipo-qqw/ocds-entity-extract.git
+[submodule "scripts/mongo-switcher"]
+	path = scripts/mongo-switcher
+	url = http://gitlab.rindecuentas.org/equipo-qqw/mongo-switcher.git
