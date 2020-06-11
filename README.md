@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Poppins is an Apache NiFi based data pipeline for the QuienEsQuien.wiki project.
+Poppins is an Apache NiFi based data pipeline for the QuienEsQuien.wiki project. It contains flows for importing contracts and extracting entity information from them.
 
 ### Objetives
 
