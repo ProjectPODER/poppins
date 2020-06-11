@@ -3,7 +3,7 @@
 source $HOME/allvars
 POPPINS_APP_PORT=8081:8081
 VERSION=$(git rev-list --count HEAD)
-REPO=${DOCKER_REPO}/${POPPINS_APP_NAME}:0.5.${VERSION}
+REPO=${DOCKER_REPO}/${POPPINS_IMAGE_NAME}:0.5.${VERSION}
 export ENVIRONMENT="stg"
 
 build() {
@@ -17,10 +17,10 @@ build() {
 
 test () {
 	echo -e "Run ${REPO} image."
-	docker run --name ${POPPINS_APP_NAME} -p ${POPPINS_APP_PORT} -d ${REPO}
+	docker run --name ${POPPINS_IMAGE_NAME} -p ${POPPINS_APP_PORT} -d ${REPO}
 	echo -e "Wait until NiFi is fully started."
 	sleep 15
-	docker logs ${POPPINS_APP_NAME}
+	docker logs ${POPPINS_IMAGE_NAME}
 	echo -e "Connect to nifi using nifi-toolkit."
 	#docker exec ${POPPINS_APP_NAME} /opt/nifi/nifi-toolkit-current/bin/cli.sh nifi current-user 2>/dev/null; true
 }
@@ -38,8 +38,8 @@ clean() {
 	echo -e ""
 	echo -e "Cleaning local build environment."
 	echo -e ""
-	docker stop ${POPPINS_APP_NAME} 2>/dev/null; true
-	docker rm ${POPPINS_APP_NAME}  2>/dev/null; true
+	docker stop ${POPPINS_IMAGE_NAME} 2>/dev/null; true
+	docker rm ${POPPINS_IMAGE_NAME}  2>/dev/null; true
 	echo -e ""
 	echo -e "Purging local images."
 	docker rmi ${REPO} 2>/dev/null; true
