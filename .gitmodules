@@ -31,3 +31,6 @@
 [submodule "scripts/latam-offshore-transformer"]
 	path = scripts/latam-offshore-transformer
 	url = http://gitlab.rindecuentas.org/equipo-qqw/latam-offshore-transformer.git
+[submodule "scripts/rupc-transformer"]
+	path = scripts/rupc-transformer
+	url = http://gitlab.rindecuentas.org/equipo-qqw/rupc-transformer.git
