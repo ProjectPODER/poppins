@@ -1,5 +1,7 @@
 # Poppins
 
+Current version: 0.9.00
+
 ## Introduction
 
 Poppins is an Apache NiFi based data pipeline for the QuienEsQuien.wiki project. It contains flows for importing contracts into OCDS and extracting entity information from them into Popolo. Supports insertion into MongoDB and ElasticSearch.
