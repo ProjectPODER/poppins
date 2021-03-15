@@ -37,3 +37,6 @@
 [submodule "scripts/elastic-alias-switcher"]
 	path = scripts/elastic-alias-switcher
 	url = http://gitlab.rindecuentas.org/equipo-qqw/elastic-alias-switcher.git
+[submodule "scripts/qqw-sitemap"]
+	path = scripts/qqw-sitemap
+	url = http://gitlab.rindecuentas.org/equipo-qqw/qqw-sitemap.git
