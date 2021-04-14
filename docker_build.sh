@@ -8,6 +8,7 @@ export ENVIRONMENT="stg"
 
 all() {
 	git submodule update --init --recursive
+	git submodule foreach git pull --ff-only origin master
 	build
 	release
 }
