@@ -65,6 +65,7 @@ help() {
 }
 
 if [[ "$1" == "build" ]]; then build;
+elif [[ "$1" == "all" ]]; then all;
 elif [[ "$1" == "test" ]]; then test;
 elif [[ "$1" == "release" ]];then release;
 elif [[ "$1" == "clean" ]]; then clean;
