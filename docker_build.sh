@@ -7,8 +7,8 @@ REPO=${DOCKER_REPO}/${POPPINS_IMAGE_NAME}:0.5.${VERSION}
 export ENVIRONMENT="stg"
 
 all() {
-	git submodule update --init --recursive
-	git submodule foreach git pull --ff-only origin master
+	#git submodule update --init --recursive
+	#git submodule foreach git pull --ff-only origin master
 	build
 	release
 }
