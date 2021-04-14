@@ -31,6 +31,7 @@ COPY       --chown=nifi:nifi conf/flow.xml.gz $NIFI_HOME/conf/
 COPY       --chown=nifi:nifi .git $NIFI_HOME/.git/
 # Install remote scripts
 RUN        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+RUN        git submodule update --recursive --remote
 RUN        git submodule foreach --recursive git checkout master
 RUN        git submodule foreach --recursive git pull --ff-only origin master
 RUN        git submodule foreach npm ci --production=true
