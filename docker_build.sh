@@ -6,6 +6,12 @@ VERSION=$(git rev-list --count HEAD)
 REPO=${DOCKER_REPO}/${POPPINS_IMAGE_NAME}:0.5.${VERSION}
 export ENVIRONMENT="stg"
 
+all() {
+	git submodule update --init --recursive
+	build
+	release
+}
+
 build() {
 	echo -e ""
 	echo -e "Building ${REPO} image."
