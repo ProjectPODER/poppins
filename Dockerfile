@@ -32,7 +32,7 @@ COPY       --chown=nifi:nifi .git $NIFI_HOME/.git/
 # Install remote scripts
 RUN        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 RUN        git submodule foreach --recursive git checkout master
-RUN        git submodule foreach --recursive git pull
+RUN        git submodule foreach --recursive git pull --ff-only origin master
 RUN        git submodule foreach npm ci --production=true
 # Change back the owner of the created files and folders
 RUN        chown nifi:nifi $NIFI_HOME/conf/* $NIFI_HOME/certs $NIFI_HOME/certs/* $POPPINS_SCRIPTS_DIR $POPPINS_SCRIPTS_DIR/*
