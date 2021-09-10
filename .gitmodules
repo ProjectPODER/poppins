@@ -40,3 +40,6 @@
 [submodule "scripts/qqw-sitemap"]
 	path = scripts/qqw-sitemap
 	url = http://gitlab.rindecuentas.org/equipo-qqw/qqw-sitemap.git
+[submodule "scripts/sicop_unifier"]
+	path = scripts/sicop_unifier
+	url = http://gitlab.rindecuentas.org/equipo-qqw/sicop-unifier.git
