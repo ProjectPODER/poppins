@@ -14,8 +14,8 @@ ENV        POPPINS_FILES_DIR=/poppins_files
 ENV        POPPINS_SCRIPTS_DIR=$NIFI_HOME/scripts
 ENV        NIFI_CERTS_DIR=${NIFI_HOME}/certs/
 # Install nodejs and npm for scripts
-RUN        apt-get update
-RUN        curl -sL https://deb.nodesource.com/setup_12.x | bash -
+# RUN        apt-get update --fix-missing
+RUN        curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN        apt-get install -y nodejs git
 # Create volume dirs for cluster
 VOLUME     ${NIFI_HOME}/conf/ \
