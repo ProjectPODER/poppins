@@ -1,6 +1,7 @@
 [submodule "scripts/transformer-ocds"]
 	path = scripts/transformer-ocds
 	url = http://gitlab.rindecuentas.org/equipo-qqw/transformer-ocds.git
+	branch = main
 [submodule "scripts/stream2db"]
 	path = scripts/stream2db
 	url = http://gitlab.rindecuentas.org/equipo-qqw/stream2db.git
