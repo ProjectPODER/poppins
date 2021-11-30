@@ -47,3 +47,4 @@
 [submodule "scripts/groucho"]
 	path = scripts/groucho
 	url = http://gitlab.rindecuentas.org/equipo-qqw/groucho.git
+	branch = main
