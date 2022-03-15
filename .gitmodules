@@ -1,6 +1,7 @@
 [submodule "scripts/transformer-ocds"]
 	path = scripts/transformer-ocds
 	url = http://gitlab.rindecuentas.org/equipo-qqw/transformer-ocds.git
+	branch = main
 [submodule "scripts/stream2db"]
 	path = scripts/stream2db
 	url = http://gitlab.rindecuentas.org/equipo-qqw/stream2db.git
@@ -22,3 +23,28 @@
 [submodule "scripts/mongo-switcher"]
 	path = scripts/mongo-switcher
 	url = http://gitlab.rindecuentas.org/equipo-qqw/mongo-switcher.git
+[submodule "scripts/record-decompiler"]
+	path = scripts/record-decompiler
+	url = http://gitlab.rindecuentas.org/equipo-qqw/record-decompiler.git
+[submodule "scripts/ciq-transformer"]
+	path = scripts/ciq-transformer
+	url = http://gitlab.rindecuentas.org/equipo-qqw/ciq-transformer.git
+[submodule "scripts/latam-offshore-transformer"]
+	path = scripts/latam-offshore-transformer
+	url = http://gitlab.rindecuentas.org/equipo-qqw/latam-offshore-transformer.git
+[submodule "scripts/rupc-transformer"]
+	path = scripts/rupc-transformer
+	url = http://gitlab.rindecuentas.org/equipo-qqw/rupc-transformer.git
+[submodule "scripts/elastic-alias-switcher"]
+	path = scripts/elastic-alias-switcher
+	url = http://gitlab.rindecuentas.org/equipo-qqw/elastic-alias-switcher.git
+[submodule "scripts/qqw-sitemap"]
+	path = scripts/qqw-sitemap
+	url = http://gitlab.rindecuentas.org/equipo-qqw/qqw-sitemap.git
+[submodule "scripts/sicop_unifier"]
+	path = scripts/sicop-unifier
+	url = http://gitlab.rindecuentas.org/equipo-qqw/sicop-unifier.git
+[submodule "scripts/groucho"]
+	path = scripts/groucho
+	url = http://gitlab.rindecuentas.org/equipo-qqw/groucho.git
+	branch = main

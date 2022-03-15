@@ -6,6 +6,14 @@ VERSION=$(git rev-list --count HEAD)
 REPO=${DOCKER_REPO}/${POPPINS_IMAGE_NAME}:0.5.${VERSION}
 export ENVIRONMENT="stg"
 
+all() {
+	git submodule init
+	git submodule sync
+	git submodule update --init --recursive --remote
+	build
+	release
+}
+
 build() {
 	echo -e ""
 	echo -e "Building ${REPO} image."
@@ -58,6 +66,7 @@ help() {
 }
 
 if [[ "$1" == "build" ]]; then build;
+elif [[ "$1" == "all" ]]; then all;
 elif [[ "$1" == "test" ]]; then test;
 elif [[ "$1" == "release" ]];then release;
 elif [[ "$1" == "clean" ]]; then clean;
